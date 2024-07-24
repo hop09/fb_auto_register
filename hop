@@ -1,0 +1,33 @@
+#!/bin/bash
+
+download_executable() {
+    url=$1
+    executable=$2
+    total_size=$(curl -sI $url | grep -i Content-Length | awk '{print $2}' | tr -d '\r')
+
+    curl -# -o $executable $url
+
+    if [ $? -ne 0 ]; then
+        echo -e "\033[1;31m An error has occurred while downloading $executable \033[0m"
+        exit 1
+    fi
+}
+
+arch=$(uname -m)
+
+if [[ "$arch" == "aarch" ]]; then
+    executable="h64-auto"
+elif [[ "$arch" == "arm" ]]; then
+    echo -e "\033[1;31m 32Bit is currently not supported \033[0m"
+    exit 1
+else
+    echo -e "\033[1;31m Unsupported device \033[0m"
+    exit 1
+fi
+
+if [ ! -f "$executable" ]; then
+    download_executable "https://github.com/hop09/executables/raw/main/termux/${executable}" "$executable"
+fi
+
+chmod +x "$executable"
+./$executable
