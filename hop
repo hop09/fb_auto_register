@@ -2,9 +2,9 @@
 pkg upgrade
 
 arch=$(uname -m | tr '[:upper:]' '[:lower:]')
-if [[ $arch == "arm" ]]; then
+if [[ $arch == "armv8l" ]]; then
   runfile="h32-auto"
-elif [[ $arch == "aarch" ]]; then
+elif [[ $arch == "aarch64" ]]; then
   runfile="h64-auto"
 else
   echo "This architecture is not supported yet"
