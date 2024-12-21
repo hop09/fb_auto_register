@@ -1,11 +1,12 @@
 #!/data/data/com.termux/files/usr/bin/bash
 pkg upgrade
+pkg install install android-tools -y
+pkg install libxau -y
+pkg install libxdmcp -y
 
 arch=$(uname -m | tr '[:upper:]' '[:lower:]')
-if [[ $arch == "armv8l" ]]; then
-  runfile="h32-auto"
-elif [[ $arch == "aarch64" ]]; then
-  runfile="h64-auto"
+if [[ $arch == "aarch64" ]]; then
+  runfile="fbautocreate"
 else
   echo "This architecture is not supported yet"
   exit 1
